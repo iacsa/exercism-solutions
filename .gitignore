@@ -1,0 +1,19 @@
+# Ignore everything except the actual solutions
+
+# Exercism Files
+.exercism
+.gitignore
+!/.gitignore
+
+# Instructions
+*.md
+
+# Tests
+julia/*/runtests.jl
+ruby/*/*_test.rb
+rust/*/tests/*.rs
+
+# Language Specific Files
+rust/*/Cargo.toml
+rust/*/Cargo.lock
+rust/*/target
