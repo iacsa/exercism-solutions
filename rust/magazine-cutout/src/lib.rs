@@ -2,18 +2,18 @@
 
 use std::collections::HashMap;
 
-fn letter_counts(text: &[&str]) -> HashMap<char, usize> {
-    text.join("").chars().fold(HashMap::new(), |mut result, c| {
-        *result.entry(c).or_insert(0) += 1;
+fn word_counts<'a>(text: &'a [&str]) -> HashMap<&'a str, usize> {
+    text.iter().fold(HashMap::new(), |mut result, word| {
+        *result.entry(word).or_insert(0) += 1;
         result
     })
 }
 
 pub fn can_construct_note(magazine: &[&str], note: &[&str]) -> bool {
-    let available_letters = letter_counts(magazine);
-    let needed_letters = letter_counts(note);
+    let available_words = word_counts(magazine);
+    let needed_words = word_counts(note);
 
-    needed_letters
+    needed_words
         .iter()
-        .all(|(k, v)| available_letters.get(k).unwrap_or(&0) >= &v)
+        .all(|(k, v)| available_words.get(k).unwrap_or(&0) >= &v)
 }
