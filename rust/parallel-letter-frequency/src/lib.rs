@@ -1,19 +1,6 @@
-use crossbeam::thread;
 use rayon::prelude::*;
 use std::collections::HashMap;
 
-#[allow(dead_code)]
-fn count_single(input: &[&str], _: usize) -> Vec<[usize; 256]> {
-    let mut counts = [0; 256];
-    for text in input {
-        for c in text.to_lowercase().chars().filter(|c| c.is_alphabetic()) {
-            counts[c as usize] += 1;
-        }
-    }
-    vec![counts]
-}
-
-#[allow(dead_code)]
 fn count_rayon(input: &[&str], worker_count: usize) -> Vec<[usize; 256]> {
     let mut partial_counts = vec![[0; 256]; worker_count];
     partial_counts
@@ -30,28 +17,6 @@ fn count_rayon(input: &[&str], worker_count: usize) -> Vec<[usize; 256]> {
                 }
             }
         });
-    partial_counts
-}
-
-#[allow(dead_code)]
-fn count_crossbeam(input: &[&str], worker_count: usize) -> Vec<[usize; 256]> {
-    let mut partial_counts = vec![[0; 256]; worker_count];
-    thread::scope(|s| {
-        for (i, partial_count) in partial_counts.iter_mut().enumerate() {
-            s.spawn(move |_| {
-                for k in (i..input.len()).step_by(worker_count) {
-                    for c in input[k]
-                        .to_lowercase()
-                        .chars()
-                        .filter(|c| c.is_alphabetic())
-                    {
-                        partial_count[c as usize] += 1;
-                    }
-                }
-            });
-        }
-    })
-    .unwrap();
     partial_counts
 }
 
