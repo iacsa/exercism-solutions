@@ -37,9 +37,10 @@ fn build_chain(dominoes: &mut [Domino], start_with: Value, end_with: Value) -> O
         // Bring domino to the front
         dominoes.swap(0, i);
 
-        // Recursively continue the chain
-        let d = dominoes[0];
-        if build_chain(&mut dominoes[1..], d.1, end_with).is_some() {
+        // Recursively continue the chain with the remaining dominoes
+        // and a new restriction given by the current chosen domino
+        let start_with = dominoes[0].1;
+        if build_chain(&mut dominoes[1..], start_with, end_with).is_some() {
             return Some(());
         }
     }
