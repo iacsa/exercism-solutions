@@ -11,7 +11,7 @@
 # Tests
 julia/*/runtests.jl
 ruby/*/*_test.rb
-rust/*/tests/*.rs
+rust/*/tests/*
 
 # Language Specific Files
 rust/*/Cargo.toml
